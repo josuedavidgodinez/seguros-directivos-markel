@@ -1,0 +1,1 @@
+// Este archivo es para todo el js relativo a la landing principal del producto
