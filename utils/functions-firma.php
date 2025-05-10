@@ -49,8 +49,97 @@ function SDOPZ_Cumplimentacion_firma_poliza_PDF(
    $rutaCompletaPDF = $directorioGuardado . $nombrepdf;
 
    $fecha_def = date("Y-m-d");
+
+   $q1_marke_sil = "";
+   $q2_pasivo_corriente_si  = "";
+   $q3_insolvencia_si  = "";
+   $q4_bolsa_si  = "";
+   $q5_us_canada_si  = "";
+   $q6a_cambio_control_si  = "";
+   $q6b_propuesta_si  = "";
+   $q7_reclamacion_si  = "";
+   $q8_denegada_si  = "";
+   $q9_rgpd_si  = "";
+   $q10_aepd_si  = "";
+
+   $q1_markel_no = "";
+   $q2_pasivo_corriente_no  = "";
+   $q3_insolvencia_no  = "";
+   $q4_bolsa_no  = "";
+   $q5_us_canada_no  = "";
+   $q6a_cambio_control_no  = "";
+   $q6b_propuesta_no  = "";
+   $q7_reclamacion_no  = "";
+   $q8_denegada_no  = "";
+   $q9_rgpd_no  = "";
+   $q10_aepd_no  = "";
    
- 
+   if($q1_markel == "Sí"){
+      $q1_markel_si = "X";
+   } else if($q1_markel == "No"){
+      $q1_markel_no = "X";
+   }
+   if($q2_pasivo_corriente == "Sí"){
+      $q2_pasivo_corriente_si = "X";
+   } else if($q2_pasivo_corriente == "No"){
+      $q2_pasivo_corriente_no = "X";
+   }
+
+   if($q3_insolvencia == "Sí"){
+      $q3_insolvencia_si = "X";
+   } else if($q3_insolvencia == "No"){
+      $q3_insolvencia_no = "X";
+   }
+
+   if($q4_bolsa == "Sí"){
+      $q4_bolsa_si = "X";
+   } else if($q4_bolsa == "No"){
+      $q4_bolsa_no = "X";
+   }
+
+   if($q5_us_canada == "Sí"){
+      $q5_us_canada_si = "X";
+   } else if($q5_us_canada == "No"){
+      $q5_us_canada_no = "X";
+   }
+
+   if($q6a_cambio_control == "Sí"){
+      $q6a_cambio_control_si = "X";
+   } else if($q6a_cambio_control == "No"){
+      $q6a_cambio_control_no = "X";
+   }
+
+   if($q6b_propuesta == "Sí"){
+      $q6b_propuesta_si = "X";
+   } else if($q6b_propuesta == "No"){
+      $q6b_propuesta_no = "X";
+   }
+
+   if($q7_reclamacion == "Sí"){
+      $q7_reclamacion_si = "X";
+   } else if($q7_reclamacion == "No"){
+      $q7_reclamacion_no = "X";
+   }
+
+   if($q8_denegada == "Sí"){
+      $q8_denegada_si = "X";
+   } else if($q8_denegada == "No"){
+      $q8_denegada_no = "X";
+   }
+
+   if($q9_rgpd == "Sí"){
+      $q9_rgpd_si = "X";
+   } else if($q9_rgpd == "No"){
+      $q9_rgpd_no = "X";
+   }
+
+   if($q10_aepd == "Sí"){
+      $q10_aepd_si = "X";
+   } else if($q10_aepd == "No"){
+      $q10_aepd_no = "X";
+   }
+
+  
    $pdf = new MikeheartSDOPZ( SDOPZ_PLUGIN_PATH . '/templates/Contrato_Markel_DO_template.pdf' );
 
    $result = $pdf
@@ -67,20 +156,32 @@ function SDOPZ_Cumplimentacion_firma_poliza_PDF(
          'facturacion_ultimo_ano'         => $facturacion_data,
 
          // Cuestionario D&O
-         'q1_markel_si'                      => strtoupper($q1_markel),
-         'q2_pasivo_corriente_si'            => strtoupper($q2_pasivo_corriente),
-         'q3_insolvencia_si'                 => strtoupper($q3_insolvencia),
-         'q4_bolsa_si'                       => strtoupper($q4_bolsa),
-         'q5_us_canada_si'                   => strtoupper($q5_us_canada),
-         'q6a_cambio_control_si'             => strtoupper($q6a_cambio_control),
-         'q6b_propuesta_si'                  => strtoupper($q6b_propuesta),
-         'q7_reclamacion_si'                 => strtoupper($q7_reclamacion),
-         'q8_denegada_si'                    => strtoupper($q8_denegada),
-         'q9_rgpd_si'                        => strtoupper($q9_rgpd),
-         'q10_aepd_si'                       => strtoupper($q10_aepd),
+         'q1_markel_si'                      => $q1_markel_si,
+         'q2_pasivo_corriente_si'            => $q2_pasivo_corriente_si,
+         'q3_insolvencia_si'                 => $q3_insolvencia_si,
+         'q4_bolsa_si'                       => $q4_bolsa_si,
+         'q5_us_canada_si'                   => $q5_us_canada_si,
+         'q6a_cambio_control_si'             => $q6a_cambio_control_si,
+         'q6b_propuesta_si'                  => $q6b_propuesta_si,
+         'q7_reclamacion_si'                 => $q7_reclamacion_si,
+         'q8_denegada_si'                    => $q8_denegada_si,
+         'q9_rgpd_si'                        => $q9_rgpd_si,
+         'q10_aepd_si'                       => $q10_aepd_si,
+
+         'q1_markel_no'                      => $q1_markel_no,
+         'q2_pasivo_corriente_no'            => $q2_pasivo_corriente_no,
+         'q3_insolvencia_no'                 => $q3_insolvencia_no,
+         'q4_bolsa_no'                       => $q4_bolsa_no,
+         'q5_us_canada_no'                   => $q5_us_canada_no,
+         'q6a_cambio_control_no'             => $q6a_cambio_control_no,
+         'q6b_propuesta_no'                  => $q6b_propuesta_no,
+         'q7_reclamacion_no'                 => $q7_reclamacion_no,
+         'q8_denegada_no'                    => $q8_denegada_no,
+         'q9_rgpd_no'                        => $q9_rgpd_no,
+         'q10_aepd_no'                       => $q10_aepd_no,
          
          //'q11_sectores_prohibidos'        => strtoupper($q11_sectores_prohibidos),
-         //'ex_check'                       => true,
+         'ex_check'                       => true,
 
          // Datos de firma y efecto
          'fecha_efecto'                   => $fecha_efecto_solicitada,

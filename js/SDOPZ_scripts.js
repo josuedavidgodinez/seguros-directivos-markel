@@ -689,7 +689,10 @@ $(document).ready(function () {
                     if (response.success) {
 
                         // Guardar información de respuesta_firma en sessionStorage
-                        const respuestaFirma = response.data.respuesta.respuesta_firma;
+                        const respuestaFirma = response.data.respuesta.firmaResponse;
+
+                        console.log(response);
+                        console.log(respuestaFirma);
 
                         sessionStorage.setItem('request_id', respuestaFirma.request_id);
                         sessionStorage.setItem('signature_id', respuestaFirma.signature_id);

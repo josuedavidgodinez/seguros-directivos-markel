@@ -504,6 +504,8 @@ function SDOPZ_procesar_poliza() {
       $suscripcion_pub
    );
 
+   error_log(json_encode($firmaResponse));
+
    // Comprueba éxito de firma
    if ( $firmaResponse 
         && isset( $firmaResponse['request_id'], $firmaResponse['signature_id'], $firmaResponse['signatory_id'] ) ) {
