@@ -504,8 +504,6 @@ function SDOPZ_procesar_poliza() {
       $suscripcion_pub
    );
 
-   error_log(json_encode($firmaResponse));
-
    // Comprueba éxito de firma
    if ( $firmaResponse 
         && isset( $firmaResponse['request_id'], $firmaResponse['signature_id'], $firmaResponse['signatory_id'] ) ) {
@@ -539,7 +537,6 @@ function SDOPZ_statusFirma() {
    $razon_social = $_POST['razon_social'];
 
    $respuesta = SDOPZ_obtener_estado_firma($request_id, $signature_id);
-
    $statusbool = array(); 
 
    if (isset($respuesta['status']) && $respuesta['status'] === 'Success') {
@@ -571,14 +568,12 @@ function SDOPZ_EnvioCorreoPoliza_cliente($email_asegurado) {
       'From: ' . sanitize_email(WPCONFIG_MAIL_EMPRESA),
       'Reply-To: ' . sanitize_email(WPCONFIG_MAIL_EMPRESA),
    );
-
    // Asunto del correo
    $asunto = "Póliza Seguro D&O - " . WPCONFIG_NAME_EMPRESA;
 
    ob_start();
 
    $template_path = SDOPZ_PLUGIN_PATH .'templates/plantilla-email.php';
-
    if (file_exists($template_path)) {
       require_once $template_path;
    } else {
@@ -589,7 +584,6 @@ function SDOPZ_EnvioCorreoPoliza_cliente($email_asegurado) {
 
    // Enviar el correo
    $wp_mail_result = wp_mail($email_asegurado, $asunto, $mensaje, $headers);
-
    // Registro de errores si ocurre algún problema
    if (!$wp_mail_result) {
       $error_message = 'Error al enviar correos a: ' . json_encode(array(
@@ -616,10 +610,8 @@ function SDOPZ_enviar_correo_poliza_callback() {
    if (isset($_POST['email_asegurado'])) {
 
       $email_asegurado = sanitize_email($_POST['email_asegurado']);
-
       // Llama a la función para enviar el correo
       $resultado = SDOPZ_EnvioCorreoPoliza_cliente($email_asegurado);
-
       if ($resultado) {
          wp_send_json_success('Correo enviado exitosamente.');
       } else {
@@ -683,7 +675,6 @@ function SDOPZ_EnvioCorreoPolizaCompania($email_asegurado, $link_poliza) {
 
 // Función que será ejecutada por el cron job
 function SDOPZ_enviar_correo_poliza_cron($email_asegurado,$signature_id,$request_id, $signatory_id ,$nombre_asegurado) {
-
    // Obtener el documento firmado
    $file_path = SDOPZ_obtener_documento_firmado_por_URL($request_id, $signature_id, $signatory_id, $nombre_asegurado);
 

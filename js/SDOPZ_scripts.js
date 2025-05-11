@@ -20,7 +20,6 @@ function SDOPZ_verificarEstadoTransaccion(request_id, signature_id, signatory_id
 
     if (contadorVerificacionesFirma < 150) {
         contadorVerificacionesFirma++;
-
         //Obtengo datos del form
         let formData = new FormData();
         //seteo accion de wordpress
@@ -498,7 +497,6 @@ $(document).ready(function () {
         let signatory_id = sessionStorage.getItem('signatory_id');
         let razon_social = sessionStorage.getItem('razon_social');
 
-
         if (!request_id || !signature_id || !signatory_id) {
             Swal.fire({
                 title: 'Información faltante',
@@ -555,7 +553,7 @@ $(document).ready(function () {
                             },
                             timeout: 15000,
                             success: function (response2) {
-                                if (response2.success) {                                    
+                                if (response2.success) {                           
                                     // Registrar el sessionStorage 'envioadoMailDO' con 1 minuto de vida
                                     sessionStorage.setItem('envioadoMailDO', 'true');
                                     setTimeout(function () {
@@ -671,7 +669,6 @@ $(document).ready(function () {
             });
         } else {
             let dataForm = collectFormData();
-            console.log(dataForm)
             insu_patch_lead(dataForm.suscripcion_pub);
 
             // Muestra el loader
@@ -691,18 +688,15 @@ $(document).ready(function () {
                         // Guardar información de respuesta_firma en sessionStorage
                         const respuestaFirma = response.data.respuesta.firmaResponse;
 
-                        console.log(response);
-                        console.log(respuestaFirma);
-
                         sessionStorage.setItem('request_id', respuestaFirma.request_id);
                         sessionStorage.setItem('signature_id', respuestaFirma.signature_id);
                         sessionStorage.setItem('signatory_id', respuestaFirma.signatory_id);
 
-                        sessionStorage.setItem('url_poliza', response.data.url_proyecto);
+                        sessionStorage.setItem('url_poliza', response.data.respuesta.url_proyecto);
 
                         // Data usuario
                         sessionStorage.setItem('razon_social', dataForm.razon_social);
-                        sessionStorage.setItem('email', dataForm.email);
+                        sessionStorage.setItem('email', dataForm.email_repre);//
                         sessionStorage.setItem('name_asegurado', dataForm.nombre_repre);
                         insu_registrar_proyecto(response.data.respuesta.url_proyecto);
 

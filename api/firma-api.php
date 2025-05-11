@@ -2,7 +2,6 @@
 
 function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $filename, $NIF) {
     //Se manda a llamar la api de start-signature
-    
     $url = URL_API_ILEIDA_START_SDOPZ;
     $username = API_USER_ILEIDA_SDOPZ;
     $password = API_PASS_ILEIDA_SDOPZ;
@@ -66,9 +65,9 @@ function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $fil
                     'signature_position' => array(
                         array(
                             "signatory_external_id" => "1",
-                            'page' => 'last',
-                            'x' => 20.0,
-                            'y' => 267.0,
+                            'page' => 4,
+                            'x' => 110.0,
+                            'y' => 145.0,
                             'height' => 20,
                             'width' => 30,
                             'rotation' => 0,
