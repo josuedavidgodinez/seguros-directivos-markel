@@ -141,66 +141,14 @@ function SDOPZ_Cumplimentacion_firma_poliza_PDF(
       $q10_aepd_no = "X";
    }
 
-   //Inicializa los valores para los inputs
-   $x362E = "";
-   $x567E = "";
-   $x693E = "";
-   $x872E = "";
-   $x1050E = "";
-   $x1313aE = "";
-   
-   $x441E = "";
-   $x683E = "";
-   $x819E = "";
-   $x1029E = "";
-   $x1208E = "";
-   $x1533E = "";
-
-   $x509E = "";
-   $x788E = "";
-   $x977E = "";
-   $x1313bE = "";
-   $x1575E = "";
-   $x1964E = "";
-
-   $x646E = "";
-   $x956E = "";
-   $x1260E = "";
-   $x1554E = "";
-   $x1733E = "";
-   $x2142E = "";
-   
-   //Establece la X correspondiente a la tabla en la pagina 2
-   switch ($precio_base) {
-      case 362: $x362E = "X"; break;
-      case 567: $x567E = "X"; break;
-      case 693: $x693E = "X"; break;
-      case 872: $x872E = "X"; break;
-      case 1050: $x1050E = "X"; break;
-      case 1313: $x1313aE = "X"; break;
-
-      case 441: $x441E = "X"; break;
-      case 683: $x683E = "X"; break;
-      case 819: $x819E = "X"; break;
-      case 1029: $x1029E = "X"; break;
-      case 1208: $x1208E = "X"; break;
-      case 1533: $x1533E = "X"; break;
-
-      case 509: $x509E = "X"; break;
-      case 788: $x788E = "X"; break;
-      case 977: $x977E = "X"; break;
-      //case 13131: $x1313bE = "X"; break; // Usar lógica especial si se repite pendiente de modificar
-      case 1575: $x1575E = "X"; break;
-      case 1964: $x1964E = "X"; break;
-
-      case 646: $x646E = "X"; break;
-      case 956: $x956E = "X"; break;
-      case 1260: $x1260E = "X"; break;
-      case 1554: $x1554E = "X"; break;
-      case 1733: $x1733E = "X"; break;
-      case 2142: $x2142E = "X"; break;
+   $respuesta_precio =  SDOPZ_obtenerPrecioYCampo($facturacion_anual, $limite_indemnizacion);
+   error_log("respuesta_precio: " . json_encode($respuesta_precio));
+   error_log("suscripcion_pub: " . $suscripcion_pub);
+   $campo_precio = $respuesta_precio['campo'] ;
+   $campo_suscripcion = '' ;
+   if($suscripcion_pub){
+      $campo_suscripcion = "X";
    }
-
   
    $pdf = new MikeheartSDOPZ( SDOPZ_PLUGIN_PATH . '/templates/Contrato_Markel_DO_template.pdf' );
 
@@ -244,30 +192,8 @@ function SDOPZ_Cumplimentacion_firma_poliza_PDF(
          
          //'q11_sectores_prohibidos'        => strtoupper($q11_sectores_prohibidos),
 
-         'x_362E'           => $x362E,
-         'x_567E'           => $x567E,
-         'x_693E'           => $x693E,
-         'x_872E'           => $x872E,
-         'x_1050E'          => $x1050E,
-         'x_1313aE'         => $x1313aE,
-         'x_441E'           => $x441E,
-         'x_683E'           => $x683E,
-         'x_819E'           => $x819E,
-         'x_1029E'          => $x1029E,
-         'x_1208E'          => $x1208E,
-         'x_1533E'          => $x1533E,
-         'x_509E'           => $x509E,
-         'x_788E'           => $x788E,
-         'x_977E'           => $x977E,
-         'x_1313bE'         => $x1313bE,
-         'x_1575E'          => $x1575E,
-         'x_1964E'          => $x1964E,
-         'x_646E'           => $x646E,
-         'x_956E'           => $x956E,
-         'x_1260E'          => $x1260E,
-         'x_1554E'          => $x1554E,
-         'x_1733E'          => $x1733E,
-         'x_2142E'          => $x2142E,
+         $campo_precio           => 'X',
+         'notificaciones'          => $campo_suscripcion,
 
          //'notificaciones'          => $,
 

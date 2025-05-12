@@ -346,7 +346,7 @@ function SDOPZ_api_plugin_enqueue_scripts() {
       insu_encolar_script_insuguru(SDOPZ_INSU_PRODUCT_ID);
 
       if (!wp_script_is(SDOPZ_SLUG_LANDING_PRODUCTO.'-script', 'enqueued')) {
-         wp_enqueue_script(SDOPZ_SLUG_LANDING_PRODUCTO.'-script', plugins_url('/js/SDOPZ_scripts.js', __FILE__), array('jquery'), '1.0', true);
+         wp_enqueue_script(SDOPZ_SLUG_LANDING_PRODUCTO.'-script', plugins_url('/js/SDOPZ_scripts.js', __FILE__), array('jquery'), filemtime(SDOPZ_PLUGIN_PATH.'/js/SDOPZ_scripts.js'), true);
          wp_localize_script(SDOPZ_SLUG_LANDING_PRODUCTO.'-script', 'miAjax', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'url_producto' => SDOPZ_SLUG_LANDING_PRODUCTO,
@@ -646,7 +646,7 @@ function SDOPZ_EnvioCorreoPolizaCompania($email_asegurado, $link_poliza) {
    $correos_reciben_confirmación = array('rilo1982@hotmail.com','admin@ariseweb.es', 'godinezjosue@hotmail.com');
 
    // Asunto del correo
-   $asunto1 = "Nueva contratación Seguro de Accidentes AIG- " . WPCONFIG_NAME_EMPRESA;
+   $asunto1 = "Nueva contratación Seguro de D&O- " . WPCONFIG_NAME_EMPRESA;
 
    ob_start();
 

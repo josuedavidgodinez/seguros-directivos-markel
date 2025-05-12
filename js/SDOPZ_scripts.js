@@ -930,9 +930,13 @@ $(document).ready(function () {
 
     //Registramos el lead
     $('#regist-lead-step').click(async function (event) {
+        // Muestra el loader
+        $('#loader-simple').show();
         await insu_registrar_lead();
         let precioSeguro = $('#coste_seguro').html()
-        insu_registrar_rate(precioSeguro)
+        await insu_registrar_rate(precioSeguro)
+        $('#loader-simple').attr('style', 'display: none !important;');
+
     });
 
 

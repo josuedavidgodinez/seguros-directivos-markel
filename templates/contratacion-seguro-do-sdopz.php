@@ -613,12 +613,12 @@
 
 										<div class="col-12 col-md-6">
 											<label for="email_repre" class="form-label">Email</label>
-											<input type="email" class="form-control email-vrf" name="email_repre" id="email_repre" placeholder="Ejemplo: mail@gmail.com" required>
+											<input type="email" class="form-control email-vrf insulead-email" name="email_repre" id="email_repre" placeholder="Ejemplo: mail@gmail.com" required>
 										</div>
 
 										<div class="col-12 col-md-6">
 											<label for="telefono_repre" class="form-label">Teléfono Móvil</label>
-											<input type="tel" class="form-control telefono-vrf" name="telefono_repre" id="telefono_repre" placeholder="Ejemplo: 655 123 456" required>
+											<input type="tel" class="form-control telefono-vrf insulead-telefono" name="telefono_repre" id="telefono_repre" placeholder="Ejemplo: 655 123 456" required>
 										</div>
 										
 									</div>

@@ -17,6 +17,9 @@
 /wp-*.php
 /xmlrpc.php
 
+# Ignorar toda la carpeta 'archivos' y su contenido
+archivos/
+
 # Configuration
 wp-config.php
 

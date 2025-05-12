@@ -62,18 +62,47 @@ function SDOPZ_valor_facturacion($valor){
 
 
 
-function SDOPZ_obtenerPrecio($facturacion, $limiteIndemnizacion) {
-   // Definimos la tabla de precios
-   $precios = [
-      1 => [1 => 399, 2 => 540, 3 => 715, 4 => "-", 5 => "-", 6 => "-"],
-      2 => [1 => 455, 2 => 615, 3 => 815, 4 => 1060, 5 => "-", 6 => "-"],
-      3 => [1 => 540, 2 => 730, 3 => 965, 4 => 1255, 5 => 1570, 6 => "-"],
-      4 => [1 => 625, 2 => 845, 3 => 1120, 4 => 1455, 5 => 1825, 6 => 2450],
-      5 => [1 => 760, 2 => 1015, 3 => 1350, 4 => 1750, 5 => 2190, 6 => 2940],
-      6 => [1 => 760, 2 => 1015, 3 => 1350, 4 => 1750, 5 => 2190, 6 => 2940],
-   ];
+/**
+ * Calcula el precio del RC y devuelve el nombre de la variable a marcar según la tabla.
+ * @param int $facturacion Índice de facturación (1-6)
+ * @param int $limiteIndemnizacion Índice de límite de indemnización (1-6)
+ * @return array ['precio' => int, 'campo' => string]
+ */
+function SDOPZ_obtenerPrecioYCampo($facturacion, $limiteIndemnizacion) {
+    // Tabla de primas
+    $tabla = [
+        1 => [1 => 362, 2 => 567, 3 => 693, 4 => 872, 5 => 1050, 6 => 1313],
+        2 => [1 => 441, 2 => 683, 3 => 819, 4 => 1029, 5 => 1208, 6 => 1533],
+        3 => [1 => 441, 2 => 683, 3 => 819, 4 => 1029, 5 => 1208, 6 => 1533],
+        4 => [1 => 509, 2 => 788, 3 => 977, 4 => 1313, 5 => 1575, 6 => 1964],
+        5 => [1 => 646, 2 => 956, 3 => 1260, 4 => 1554, 5 => 1733, 6 => 2142],
+        6 => [1 => 646, 2 => 956, 3 => 1260, 4 => 1554, 5 => 1733, 6 => 2142]
+    ];
 
-   return $precios[$facturacion][$limiteIndemnizacion]; 
+    // Mapeo de campos para cada celda de la tabla
+    $campos = [
+        1 => ['x_362E', 'x_567E', 'x_693E', 'x_872E', 'x_1050E', 'x_1313aE'],
+        2 => ['x_441E', 'x_683E', 'x_819E', 'x_1029E', 'x_1208E', 'x_1533E'],
+        3 => ['x_441E', 'x_683E', 'x_819E', 'x_1029E', 'x_1208E', 'x_1533E'],
+        4 => ['x_509E', 'x_788E', 'x_977E', 'x_1313bE', 'x_1575E', 'x_1964E'],
+        5 => ['x_646E', 'x_956E', 'x_1260E', 'x_1554E', 'x_1733E', 'x_2142E'],
+        6 => ['x_646E', 'x_956E', 'x_1260E', 'x_1554E', 'x_1733E', 'x_2142E']
+    ];
+
+    if (
+        isset($tabla[$facturacion][$limiteIndemnizacion]) &&
+        isset($campos[$facturacion][$limiteIndemnizacion - 1])
+    ) {
+        return [
+            'precio' => $tabla[$facturacion][$limiteIndemnizacion],
+            'campo'  => $campos[$facturacion][$limiteIndemnizacion - 1]
+        ];
+    }
+
+    return [
+        'precio' => null,
+        'campo'  => null
+    ];
 }
 
 

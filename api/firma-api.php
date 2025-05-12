@@ -14,7 +14,6 @@ function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $fil
 	    // Si no tiene código de país, añadir +34
 	    $telefono_formateado = '+34' . $telefono;
 	}
-    $telefono = '+50256200161';
 
     // Especifica la ruta completa al archivo
     $filePath = SDOPZ_PLUGIN_PATH. '/archivos/polizas-cumplimentadas/' . $filename;
