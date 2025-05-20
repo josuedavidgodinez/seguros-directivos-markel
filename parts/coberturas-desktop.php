@@ -20,7 +20,8 @@
                             </div>
                             <div class="name-prod-viaje"><?= $nombre_poliza; ?></div>
                             <div class="price-inter" id="<?= $precio_id; ?>"><?= $precio_poliza; ?> <span class="mini-moneda"><?= $anotacion_precio; ?></span></div>
-                            <a href="/contratacion-seguro-do-sdopz/" id="<?= $btn_id; ?>" class="btn btn-primary acc-selector">Contratar ahora</a>
+                            <a href="#" id="<?= $btn_id; ?>" class="btn btn-primary acc-selector" data-url="/contratacion-seguro-do-sdopz/">Contratar ahora</a>
+                            <a  data-disparo_id="<?=$btn_id;?>" class="btn_presupuesto_sol btn_seleccion_opt_ciber_secundario">Presupuesto PDF</a>
                             <small class="poliza-small-advice color-azul"><?= $small_precio; ?></small>
                         </div>  
                     </div>                              
@@ -62,6 +63,49 @@
                 }
              ?>
         </div>
+    </div>
+
+    <h3 class="accordion-header" id="heading1">
+        <button class="accordion-button no-icon collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-controls="collapse1">Franquicias</button>
+    </h3>
+    <div class="accordion-body">
+        <table class="table_cob_viajes">
+            <tbody>
+                <tr>
+                    <td class="text-start tam3_tab">Deshonestidad de empleados</td>
+                    <td class="text-center valor_cobertura_viajes">1500 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table_cob_viajes">
+            <tbody>
+                <tr>
+                    <td class="text-start tam3_tab">Protección de Datos</td>
+                    <td class="text-center valor_cobertura_viajes">3000 €</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-start flex-wrap" >
+
+        <?php 
+            foreach ($nombre as $index => $nombre_poliza) {
+                $btn_id = 'btn_precio_' . ($index + 1);
+                
+                ?>
+                <div class="card-viaje-option border-0 shadow-none">
+                    <div class="d-flex justify-content-start align-items-start justify-content-center name-price-inter bg-white">
+                        <div class="text-center">
+                            <a  data-disparo_id="<?=$btn_id;?>" class="btn btn-primary btn_seleccion_opt_ciber_secundario">Contratar ahora</a>
+                            <a  data-disparo_id="<?=$btn_id;?>" class="btn_presupuesto_sol btn_seleccion_opt_ciber_secundario">Presupuesto PDF</a>
+                        </div>  
+                    </div>                              
+                </div>
+                <?php
+            }
+        ?>
     </div>
 
 </div>

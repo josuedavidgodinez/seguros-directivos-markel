@@ -73,30 +73,7 @@ if ($fondo_faqs == "verde") {
 					}
 				?>
 
-				<h3 class="accordion-header" id="heading1">
-			        <button class="accordion-button no-icon collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-controls="collapse1">Franquicias</button>
-			    </h3>
-			    <div class="accordion-body">
-            		<table class="table_cob_viajes">
-            			<tbody>
-            				<tr>
-            					<td class="text-start tam3_tab">Deshonestidad de empleados</td>
-            					<td class="text-center valor_cobertura_viajes">1500 €</td>
-            				</tr>
-            			</tbody>
-            		</table>
-
-            		<table class="table_cob_viajes">
-            			<tbody>
-            				<tr>
-            					<td class="text-start tam3_tab">Protección de Datos</td>
-            					<td class="text-center valor_cobertura_viajes">3000 €</td>
-            				</tr>
-            			</tbody>
-            		</table>
-            	</div>
-
-
+			
 				<div id="cond-generales" class="d-flex mt-3 justify-content-center align-items-start">
 					<div class="cond-gen-box">
 						<a class="color-azul bold" target="_blank" href="<?= SDOPZ_PLUGIN_URL; ?>/archivos/D&O Condicionado General.pdf"><img class="down-condi" src="<?= SDOPZ_PLUGIN_URL; ?>/img/download_icon.svg'); ?>" alt="Mostrar y ocultar info"> Condiciones particulares</a>

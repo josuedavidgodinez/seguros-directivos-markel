@@ -49,3 +49,6 @@ wp-config.php
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
+
+# Ignorar toda la carpeta 'archivos' y su contenido
+archivos/

@@ -1,16 +1,27 @@
-## Descripción
+# Fundamental:
 
-Este plugin permite tarificar y enviar una solicitud para contratar un seguro de directivos con Markel
+Tener definidas las siguientes constantes desde wp-config.php sobre la correduría
 
+define('WPCONFIG_NAME_EMPRESA', 'Asegura ');
+define('WPCONFIG_URLEMPRESA', 'https://asegura.com');
+define('WPCONFIG_MAIL_EMPRESA', 'admin@ariseweb.es');
+define('WPCONFIG_MAIL_EMPRESA_PARA_PUBLICO', 'info@asegura.com');
+define('WPCONFIG_LOGO_TOP_EMPRESA', 'https://asegura.com/wp-content/uploads/2025/01/logo-min-asegura.png');   //Idealmente PNG
+define('WPCONFIG_LOGO_ORIGINAL_EMPRESA', 'https://asegura.com/wp-content/uploads/2024/09/Asegura-logo.svg');   //Idealmente SVG
+define('WPCONFIG_DIRECCION_EMPRESA', 'Calle Castro, 50 6º-D. 38006, Santa Cruz de Tenerife');
+define('WPCONFIG_TELEFONO_EMPRESA', '');
+define('WPCONFIG_TELEFONO_EMPRESA_2', '');
+define('CORR_CIF_CORREDURIA', '798989897');
+define('CORR_REG_SEGUROSY_PENSIONES_CORREDURIA', '798989897');
+```
 
-## 2. Requerimientos iniciales
+## 1. Requerimientos iniciales
 
-Asegurarse que en la configuración del servidor se han eliminado de de *disable functions*:
+Es necesario Quitar de disable functions:
 
 - proc_open
 - proc_close
-
-También son necesarias ciertas librerías para la cumplimentación y generación del pdf. Por ello es necesario ejecutar los siguientes comandos en el servidor:
+- Correr el siguiente comando en el servidor:
 
 ```html
 sudo apt-get update && sudo apt-get -y install wkhtmltopdf
@@ -20,15 +31,10 @@ sudo apt-get update && sudo apt-get -y install wkhtmltopdf
 sudo apt install -y pdftk
 ```
 
-## 3. Instalación y configuración
+## **Importante**
 
-Subir el plugin a través de FTP o directamente en Wordpress.
+Antes de activar:
 
-**Importante:** Antes de activar:
-
-1. Definir en el archivo principal del plugin las constantes entre el comentario  /***VARIABLES A REVISAR ANTES DE ACTIVAR EL PLUGIN****/   que sean necesarias.
+1. Definir en el archivo principal del plugin las constantes entre el comentario /***VARIABLES A REVISAR ANTES DE ACTIVAR EL PLUGIN***/ que sean necesarias.
 2. También es necesario cambiar los correos electrónicos a los que se les enviará una copia de la solicitud de contratación. Está en la línea 637 del archivo principal del plugin.
-3. Activar el  plugin.
-
-
-🚨Es aconsejable tras la activación el plugin reescribir enlaces permanentes y borrar cache
+3. Activar el plugin.

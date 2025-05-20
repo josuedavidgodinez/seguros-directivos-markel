@@ -882,7 +882,7 @@ $(document).ready(function () {
        isMobile: true,
        autoClose: true,
        maxDate: today,       // No permitir futuras a hoy
-       startDate: today,     // Calendario comienza en hoy
+       startDate: new Date(2000, 0, 1),   // Calendario comienza en 1-1-2000
        onSelect: function (formattedDate, date, inst) {
             let fecha_constitucion = new Date(convertirFormatoFecha($("#fecha_constitucion_empresa").val()));
 

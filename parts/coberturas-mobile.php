@@ -14,7 +14,9 @@
                             </div>
                             <div class="name-prod-viaje"><?= $nombre_poliza; ?></div>
                             <div class="price-inter" id="precio_<?= $index + 1; ?>"><?= $precios[$index]; ?> <span class="mini-moneda"><?= $anotaciones_precio[$index]; ?></span></div>
-                            <a href="/contratacion-seguro-do-sdopz/" id="btn_precio_<?= $index + 1; ?>" class="btn btn-primary acc-selector">Contratar ahora</a>
+                            <a href="#" id="btn_precio_<?= $index + 1; ?>" class="btn btn-primary acc-selector" data-url="/contratacion-seguro-do-sdopz/" 
+                            data-price-sg="<?= $precios[$index]; ?>" >Contratar ahora</a>
+                            <a data-disparo_id="btn_precio_<?= $index + 1; ?>" class="btn_presupuesto_sol btn_seleccion_opt_ciber_secundario">Presupuesto PDF</a>
                             <small class="poliza-small-advice color-azul"><?= $anotacion_poliza[$index]; ?></small>
                         </div>  
                     </div>                              
@@ -46,6 +48,42 @@
                         ?>
                     </div>
                 </div>
+
+                <h3 class="accordion-header" id="heading1">
+                    <button class="accordion-button no-icon collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-controls="collapse1">Franquicias</button>
+                </h3>
+                <div class="accordion-body">
+                    <table class="table_cob_viajes">
+                        <tbody>
+                            <tr>
+                                <td class="text-start tam3_tab">Deshonestidad de empleados</td>
+                                <td class="text-center valor_cobertura_viajes">1500 €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table_cob_viajes">
+                        <tbody>
+                            <tr>
+                                <td class="text-start tam3_tab">Protección de Datos</td>
+                                <td class="text-center valor_cobertura_viajes">3000 €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end align-items-start flex-wrap" id="form_datos_select_productos">
+                    <div class="card-viaje-option  border-0 shadow-none">
+                        <div class="d-flex justify-content-start align-items-start justify-content-center name-price-inter bg-white">
+                            <div class="text-center">
+                                <a  data-disparo_id="btn_precio_<?= $index + 1; ?>" class="btn btn-primary btn_seleccion_opt_ciber_secundario">Contratar ahora</a>
+                                <a data-disparo_id="btn_precio_<?= $index + 1; ?>" class="btn_presupuesto_sol btn_seleccion_opt_ciber_secundario">Presupuesto PDF</a>
+
+                            </div>  
+                        </div>                              
+                    </div>
+                </div>
+                
             </div>
             <?php endforeach; ?>
         </div>

@@ -496,13 +496,12 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
                                                                                         style="color: #004481; font-family: Space Grotesk, Arial; font-size: 16px; line-height: 1.5; padding: 15px 0; text-align: center;">
                                                                                         <div>
                                                                                             <h1 class="default-heading1"
-                                                                                                style="margin: 0; color: #004481; font-family: Arial, Helvetica, sans-serif; font-size: 36px;">
+                                                                                                style="margin: 0; color: #004481; font-family: Arial, Helvetica, sans-serif; font-size: 26px;">
                                                                                                 <span
-                                                                                                    style="font-family: \'Space Grotesk\', Arial; font-size: 32px; line-height: 1;">Nueva
+                                                                                                    style="font-family: \'Space Grotesk\', Arial; font-size: 26px; line-height: 1;">Nueva
                                                                                                     solicitud de
                                                                                                     contratación seguro
-                                                                                                    D&O de 
-                                                                                                    Zurich</span>
+                                                                                                    D&O</span>
                                                                                             </h1>
                                                                                         </div>
                                                                                     </td>

@@ -10,12 +10,13 @@ span.desde-val {
     font-size: 14px;
 }
 div#img-producto {
-    max-width: 500px;
+    width: 100%;
     margin-left: 0;
     margin-top: 5%;
 }
 @media (min-width:772px){
     div#img-producto {
+        max-width: 450px;
         margin-left: 7%;
         margin-top: 0;
     }
