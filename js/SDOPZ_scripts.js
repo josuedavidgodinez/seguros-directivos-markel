@@ -1,5 +1,74 @@
 $ = jQuery.noConflict();
 
+function fixEncoding(str) {
+    try {
+        return decodeURIComponent(escape(str));
+    } catch (e) {
+        return str;
+    }
+}
+
+function aplicarCorreccionARespuesta(respuesta) {
+    // Recorremos cada propiedad de la respuesta
+    for (let key in respuesta) {
+        if (typeof respuesta[key] === 'string') {
+            // Corregimos los caracteres especiales en las cadenas
+            respuesta[key] = fixEncoding(respuesta[key]);
+        } else if (typeof respuesta[key] === 'object') {
+            // Si la propiedad es un objeto o array, hacemos la corrección de manera recursiva
+            aplicarCorreccionARespuesta(respuesta[key]);
+        }
+    }
+}
+
+function armarPeticionAjax(formData, resolve, reject) {
+    $.ajax({
+        url: miAjax.ajaxurl, // WordPress AJAX handler URL
+        type: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            aplicarCorreccionARespuesta(response);
+            if (response.success) {
+                // Aplicamos corrección de caracteres a la respuesta antes de resolver
+                resolve(response.data.respuesta);
+            } else {
+                reject(response.data.errores);
+            }
+        },
+        error: function (xhr, status, error) {
+            reject([`Error desconocido`]);
+        }
+    });
+}
+
+function crearFormularioAjax(action, data = {}){
+    try {
+        //Obtengo datos del form
+        let formData = new FormData();
+        //seteo accion de wordpress
+        formData.append("action", action);
+
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                formData.append(key, data[key]);
+            }
+        }
+        return formData;
+    } catch  {
+        return null;
+    }
+}
+
+function SDOPZ_guardar_transient(datos) {
+    return new Promise((resolve, reject) => {
+        let formData = crearFormularioAjax('SDOPZ_save_transient', datos);
+        armarPeticionAjax(formData, resolve, reject);
+    });
+}
+
 
 // Verificar si es un dispositivo móvil con tamaño de pantalla menor a 1024 px
 function SDOPZ_esDispositivoMovil() {
@@ -491,118 +560,6 @@ $(document).ready(function () {
     let page = path.replaceAll('/', '');
     let url_producto = miAjax.url_producto;
 
-    if (page === 'firma-seguro-do-sdopz') {
-        let request_id = sessionStorage.getItem('request_id');
-        let signature_id = sessionStorage.getItem('signature_id');
-        let signatory_id = sessionStorage.getItem('signatory_id');
-        let razon_social = sessionStorage.getItem('razon_social');
-
-        if (!request_id || !signature_id || !signatory_id) {
-            Swal.fire({
-                title: 'Información faltante',
-                text: 'Por favor, vuelve a completar tu solicitud, o si lo prefieres, contacta con nosotros vía telefónica, a través del correo electrónico o directamente a través de nuestro formulario de contacto.',
-                icon: 'warning',
-                confirmButtonText: 'De acuerdo'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = url_producto;
-                }
-            });
-        } else {
-            SDOPZ_verificarEstadoTransaccion(request_id, signature_id, signatory_id, razon_social);
-        }
-    }
-
-    if (page === 'agradecimiento-seguro-sdopz') {
-
-        let email_asegurado = sessionStorage.getItem('email');
-        let link_poliza_firmada = sessionStorage.getItem('url_poliza');
-        let request_id = sessionStorage.getItem('request_id');
-        let signature_id = sessionStorage.getItem('signature_id');
-        let signatory_id = sessionStorage.getItem('signatory_id');
-        let razon_social = sessionStorage.getItem('razon_social');
-        let name_asegurado = sessionStorage.getItem('name_asegurado');
-
-        // Comprobar si ya existe el sessionStorage 'envioadoMailDO'
-        let envioadoMailDO = sessionStorage.getItem('envioadoMailDO');
-
-        if (!envioadoMailDO) {
-            // Si no existe, ejecutamos el AJAX
-            $.ajax({
-                url: miAjax.ajaxurl,
-                type: 'POST',
-                data: {
-                    action: 'SDOPZ_enviar_correo_poliza_cliente',
-                    email_asegurado: email_asegurado
-                },
-                timeout: 5000,
-                success: function (response) {
-                    if (response.success) {
-                        // Segunda solicitud AJAX para programar el correo a la compañía
-                        $.ajax({
-                            url: miAjax.ajaxurl,
-                            type: 'POST',
-                            data: {
-                                action: 'SDOPZ_enviar_correo_poliza_compania',
-                                email_asegurado: email_asegurado,
-                                link_poliza: link_poliza_firmada,
-                                request_id: request_id,
-                                signature_id: signature_id,
-                                signatory_id: signatory_id,
-                                name_asegurado
-                            },
-                            timeout: 15000,
-                            success: function (response2) {
-                                if (response2.success) {                           
-                                    // Registrar el sessionStorage 'envioadoMailDO' con 1 minuto de vida
-                                    sessionStorage.setItem('envioadoMailDO', 'true');
-                                    setTimeout(function () {
-                                        sessionStorage.removeItem('envioadoMailDO');
-                                    }, 70000); // 60000ms = 1 minuto
-                                } else {
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: 'No se pudo programar el envío del correo a la compañía. Por favor, ponte en contacto con nosotros.',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
-                            },
-                            error: function () {
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: 'Error en la solicitud para programar el envío del correo a la compañía. Por favor, ponte en contacto con nosotros.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'No se pudo enviar el correo al cliente. Por favor, ponte en contacto con nosotros.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Error en la solicitud para enviar el correo al cliente. Por favor, ponte en contacto con nosotros.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                },
-                complete: function () {
-                    $('#enviarCorreoBtn').prop('disabled', false); // Re-enable the button
-                }
-            });
-        } 
-
-    }
-
-
 
     //Si existe pantallad de un solo precio la definimos aquí
     let pantallaPrecio = "";
@@ -635,6 +592,9 @@ $(document).ready(function () {
 
     //FUNCIONALIDAD DEL PASO FINAL DEL FORMULARIO
     const sgPasoAct = $('#sg-paso-17');
+    const sgPasoPresu  = $('#sg-paso-16');
+    const $loaderSimple = $('#loader-simple');
+
 
     function toggleButtonFinalStep() {
         var isCondChecked = $('#suscripcion_cond').is(':checked');
@@ -682,29 +642,27 @@ $(document).ready(function () {
                     action: 'SDOPZ_procesar_poliza',
                     ...dataForm
                 },
-                success: function (response) {
+                success: async function (response) {
                     if (response.success) {
+                    const respuestaFirma = response.data.respuesta.firmaResponse;
+                    let INSU_WP_ARISE_RATE = sessionStorage.getItem('INSU_WP_ARISE_RATE');
+                    let INSU_WP_ARISE_LEAD = sessionStorage.getItem('INSU_WP_ARISE_LEAD');
 
-                        // Guardar información de respuesta_firma en sessionStorage
-                        const respuestaFirma = response.data.respuesta.firmaResponse;
-
-                        sessionStorage.setItem('request_id', respuestaFirma.request_id);
-                        sessionStorage.setItem('signature_id', respuestaFirma.signature_id);
-                        sessionStorage.setItem('signatory_id', respuestaFirma.signatory_id);
-
-                        sessionStorage.setItem('url_poliza', response.data.respuesta.url_proyecto);
-
-                        // Data usuario
-                        sessionStorage.setItem('razon_social', dataForm.razon_social);
-                        sessionStorage.setItem('email', dataForm.email_repre);//
-                        sessionStorage.setItem('name_asegurado', dataForm.nombre_repre);
-                        insu_registrar_proyecto(response.data.respuesta.url_proyecto);
-
-                        sessionStorage.setItem('policy_data_sdopz', JSON.stringify(dataForm));
+                     await SDOPZ_guardar_transient({
+                        ...dataForm,
+                        INSU_WP_ARISE_RATE,
+                        INSU_WP_ARISE_LEAD,
+                        email_to_asegurar : dataForm.email_repre,
+                        name_to_asegurar : dataForm.nombre_repre,
+                        request_id: respuestaFirma.request_id,
+                        signature_id: respuestaFirma.signature_id,
+                        signatory_id: respuestaFirma.signatory_id,
+                        razon_social: dataForm.razon_social
+                    });
 
 
-                        // Redirigir a otra página
-                        window.location.href = '/firma-seguro-do-sdopz/';
+                    // Redirige a la ruta de tu preferencia
+                    window.location.href = respuestaFirma.url_redirect;
 
                     } else {
                         // Mostrar sweet alert
@@ -720,6 +678,43 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+
+    sgPasoPresu.on('click', function() {
+
+    // Obtiene datos del formulario
+    const dataForm = collectFormData();
+    // Muestra el loader
+    $loaderSimple.show();
+    // Realiza la llamada AJAX al backend de WordPress para generar el proyecto
+    $.ajax({
+        url: miAjax.ajaxurl,
+        type: 'POST',
+        data: {
+            action: 'SDOPZ_generar_proyecto',
+            ...dataForm
+        },
+        success: async function(response) {
+            if (response.success) {
+                // Data url proyecto
+                $('#descargar-presupuesto-SDOPZ')
+                .attr('href', response.data.respuesta.url_proyecto)
+                .attr('download', 'Presupuesto_seguro_directivos');
+                // Registrar proyecto según tu lógica actual
+                await  insu_registrar_proyecto(response.data.respuesta.url_proyecto);
+                $('#descargar-presupuesto-SDOPZ').removeClass('d-none').css('display', 'block');
+            } else {
+                console.log(response);
+                console.log('Ha fallado el proceso en el servidor.');
+            }
+            $loaderSimple.attr('style', 'display: none !important;');
+        },
+        error: function(err) {
+            console.log(err);
+            console.log('Error en la llamada AJAX.');
+            $loaderSimple.attr('style', 'display: none !important;');
+        }
+    });
     });
 
     // Vincular el cambio del checkbox y validación de campos a la función de toggle
@@ -767,6 +762,15 @@ $(document).ready(function () {
     // Variable para guardar el historial de pasos
     let stepHistory = [];
 
+        //Función que muestra u oculata el resumen de  mobile
+    function MostrarBotonDescargaProyecto(currentStepValue){
+        // Manejar el botón de descarga
+        if (currentStepValue > 15) {
+            $('#descargar-presupuesto-SDOPZ').removeClass('d-none').css('display', 'block');
+        } else {
+            $('#descargar-presupuesto-SDOPZ').addClass('d-none').css('display', 'none');
+        }
+    }
 
     // Manejar el botón de siguiente
     $('.btn-next-form').click(async function (event) {
@@ -800,6 +804,12 @@ $(document).ready(function () {
 
             scrollToTop();
         }
+                // Obtener el valor actual del paso a partir del ID
+        var currentStepId = currentStep.attr('id'); 
+        var currentStepValue = parseInt(currentStepId.split('-').pop(), 10);
+
+
+        MostrarBotonDescargaProyecto(currentStepValue)
     });
 
     // Manejar el botón de atrás
@@ -814,7 +824,13 @@ $(document).ready(function () {
 
         if (prevStep.length) {
             currentStep.fadeOut(250, function () {
-                prevStep.fadeIn(250);
+                prevStep.fadeIn(250, function () {  
+                    // Obtener el valor actual del paso a partir del nuevo paso visible
+                    var currentStepId = prevStep.attr('id'); 
+                    var currentStepValue = parseInt(currentStepId.split('-').pop(), 10);
+
+                    MostrarBotonDescargaProyecto(currentStepValue);
+                });
 
                 actualPasoLinea.removeClass('active');
                 anteriorStepPasoLinea.addClass('active');

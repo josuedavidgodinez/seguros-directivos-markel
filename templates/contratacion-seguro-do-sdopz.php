@@ -649,7 +649,7 @@
 								</div>
 
 								<div class="d-flex box-next-step-asg justify-content-center"> 
-									<div class="btn btn-primary btn-next-form btn-next-paso-asg" id="sg-paso-5">Siguiente paso</div>
+									<div class="btn btn-primary btn-next-form btn-next-paso-asg" id="sg-paso-16">Siguiente paso</div>
 								</div>
 
 							</div>	

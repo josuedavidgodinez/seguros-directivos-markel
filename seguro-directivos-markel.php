@@ -48,6 +48,8 @@ define('URL_API_ILEIDA_VSIGN_SDOPZ', 'https://api.lleida.net/cs/v1/get_signature
 
 define('API_USER_ILEIDA_SDOPZ', 'ibrok');
 define('API_PASS_ILEIDA_SDOPZ', '}Tn,V9quqP');
+define('API_TEMPLATE_ILEIDA_SDOPZ', '88305');
+define('API_URL_REDIRECT_SDOPZ', 'agradecimiento-seguro-sdopz');
 
 
 //Requerimos archivos con las funcionalidades propias del plugin.
@@ -59,6 +61,7 @@ require_once SDOPZ_PLUGIN_PATH .'utils/generacion-proyecto.php';
 
 //Requerimos archivos con las funcionalidades de completar el pdf (poliza) y crear la firma.
 require_once SDOPZ_PLUGIN_PATH .'utils/functions-firma.php';
+require_once SDOPZ_PLUGIN_PATH .'utils/transient-services.php';
 require_once SDOPZ_PLUGIN_PATH .'api/status-firma.php';
 require_once SDOPZ_PLUGIN_PATH .'api/obtener-pdf.php';
 require_once SDOPZ_PLUGIN_PATH .'api/firma-api.php';
@@ -364,7 +367,7 @@ function SDOPZ_api_plugin_enqueue_scripts() {
 
    if (get_post_field('post_name', get_post()) == SDOPZ_SLUG_LANDING_PRODUCTO) {
       if (!wp_script_is('js-landing', 'enqueued')) {
-         wp_enqueue_script('js-landing', plugins_url('/js/SDOPZ_script_landing_producto.js', __FILE__), array('jquery'), '1.0', true);
+         wp_enqueue_script('js-landing', plugins_url('/js/SDOPZ_script_landing_producto.js', __FILE__), array('jquery'),  filemtime(SDOPZ_PLUGIN_PATH.'/js/SDOPZ_script_landing_producto.js'), true);
       }
    }
 }
@@ -374,10 +377,8 @@ add_action('wp_enqueue_scripts', 'SDOPZ_api_plugin_enqueue_scripts');
 
 
 
-
-
 /******** AJAX PROCESA LA GENERACIÓN DEL PROYECTO, CUMPLIMENTACIÓN DE LA PÓLIZA Y SU FIRMA ************/
-function SDOPZ_procesar_poliza() {
+function SDOPZ_generar_proyecto() {
    // Inicializa el array de respuesta
    $response = [];
 
@@ -464,6 +465,85 @@ function SDOPZ_procesar_poliza() {
       $fecha_efecto_solicitada
    );
 
+   // Comprueba éxito de firma
+   if ( $url_proyecto_producto 
+        ) {
+      $response['url_proyecto']  = $url_proyecto_producto;
+      wp_send_json_success( [
+         'errores'   => [],
+         'respuesta' => $response,
+      ] );
+   } else {
+      $response['error'] = __( 'No se pudo completar el proceso de firma.', 'seguro-do-markel' );
+      wp_send_json_error( [
+         'errores'   => [],
+         'respuesta' => $response,
+      ] );
+   }
+}
+
+add_action( 'wp_ajax_SDOPZ_generar_proyecto', 'SDOPZ_generar_proyecto' );
+add_action( 'wp_ajax_nopriv_SDOPZ_generar_proyecto', 'SDOPZ_generar_proyecto' );
+
+
+/******** AJAX PROCESA LA GENERACIÓN DEL PROYECTO, CUMPLIMENTACIÓN DE LA PÓLIZA Y SU FIRMA ************/
+function SDOPZ_procesar_poliza() {
+   // Inicializa el array de respuesta
+   $response = [];
+
+   // Comprueba que al menos el email del asegurado venga
+   if ( ! isset( $_POST['email_repre'] ) || empty( $_POST['email_repre'] ) ) {
+      $response['error'] = __( 'No se han recibido datos del formulario', 'seguro-do-markel' );
+      return wp_send_json_error( [
+         'errores'   => [],
+         'respuesta' => $response,
+      ] );
+   }
+
+   // --- Sanitize y asigna todos los inputs nuevos ---
+   $facturacion_anual         = sanitize_text_field( $_POST['facturacion_anual'] ?? '' );
+   $precio_base               = sanitize_text_field( $_POST['precio_poliza_do'] ?? '' );
+   $limite_indemnizacion      = sanitize_text_field( $_POST['limite_indemnizacion'] ?? '' );
+   $razon_social              = sanitize_text_field( $_POST['razon_social'] ?? '' );
+   $cif_data                  = sanitize_text_field( $_POST['identificador'] ?? '' );
+   $fecha_constitucion        = sanitize_text_field( $_POST['fecha_constitucion_empresa'] ?? '' );
+   $codigo_postal             = sanitize_text_field( $_POST['codigo_postal'] ?? '' );
+   $provincia                 = sanitize_text_field( $_POST['provincia'] ?? '' );
+   $poblacion                 = sanitize_text_field( $_POST['poblacion'] ?? '' );
+   $direccion_completa        = sanitize_text_field( $_POST['dirección'] ?? '' );
+   $facturacion_data          = sanitize_text_field( $_POST['facturacion_data'] ?? '' );
+   $forma_pago_data           = sanitize_text_field( $_POST['forma_pago_data'] ?? '' );
+   $cuenta_banc_data          = sanitize_text_field( $_POST['cuenta_banc_data'] ?? '' );
+   // Respuestas a las nuevas preguntas
+   $q1_markel                 = sanitize_text_field( $_POST['q1_markel'] ?? '' );
+   $q2_pasivo_corriente       = sanitize_text_field( $_POST['q2_pasivo_corriente'] ?? '' );
+   $q3_insolvencia            = sanitize_text_field( $_POST['q3_insolvencia'] ?? '' );
+   $q4_bolsa                  = sanitize_text_field( $_POST['q4_bolsa'] ?? '' );
+   $q5_us_canada              = sanitize_text_field( $_POST['q5_us_canada'] ?? '' );
+   $q6a_cambio_control        = sanitize_text_field( $_POST['q6a_cambio_control'] ?? '' );
+   $q6b_propuesta             = sanitize_text_field( $_POST['q6b_propuesta'] ?? '' );
+   $q7_reclamacion            = sanitize_text_field( $_POST['q7_reclamacion'] ?? '' );
+   $q8_denegada               = sanitize_text_field( $_POST['q8_denegada'] ?? '' );
+   $q9_rgpd                   = sanitize_text_field( $_POST['q9_rgpd'] ?? '' );
+   $q10_aepd                  = sanitize_text_field( $_POST['q10_aepd'] ?? '' );
+   $q11_sectores_prohibidos   = sanitize_text_field( $_POST['q11_sectores_prohibidos'] ?? '' );
+   $actividad_descript        = sanitize_textarea_field( $_POST['actividad'] ?? '' );
+   // Fechas y consentimiento
+   $fecha_efecto_solicitada   = sanitize_text_field( $_POST['fecha_efecto_solicitada'] ?? '' );
+   $suscripcion_cond          = isset( $_POST['suscripcion_cond'] );
+   $declaracion_datos         = isset( $_POST['declaracion_datos'] );
+   $suscripcion_pub           = isset( $_POST['suscripcion_pub'] );
+   // Datos del representante
+   $cargo_repre               = sanitize_text_field( $_POST['cargo_repre'] ?? '' );
+   $nombre_repre              = sanitize_text_field( $_POST['nombre_repre'] ?? '' );
+   $apellido_repre            = trim( sanitize_text_field( ( $_POST['apellido_1_repre'] ?? '' ) . ' ' . ( $_POST['apellido_2_repre'] ?? '' ) ) );
+   $identificador_repre       = sanitize_text_field( $_POST['identificador_repre'] ?? '' );
+   $email_repre               = sanitize_email( $_POST['email_repre'] ?? '' );
+   $telefono_repre            = sanitize_text_field( $_POST['telefono_repre'] ?? '' );
+
+   $nombre_provincia_asegurado = SDOPZ_obtenerNombreProvincia( $provincia );
+
+
    // --- Genera PDF final y firma electrónica ---
    $firmaResponse = SDOPZ_Cumplimentacion_firma_poliza_PDF(
       $facturacion_anual,
@@ -508,7 +588,6 @@ function SDOPZ_procesar_poliza() {
    if ( $firmaResponse 
         && isset( $firmaResponse['request_id'], $firmaResponse['signature_id'], $firmaResponse['signatory_id'] ) ) {
       $response['success']       = true;
-      $response['url_proyecto']  = $url_proyecto_producto;
       $response['firmaResponse'] = $firmaResponse;
       wp_send_json_success( [
          'errores'   => [],
@@ -557,75 +636,6 @@ function SDOPZ_statusFirma() {
 add_action('wp_ajax_SDOPZ_verifica_status_proc_firma', 'SDOPZ_statusFirma');
 add_action('wp_ajax_nopriv_SDOPZ_verifica_status_proc_firma', 'SDOPZ_statusFirma');
 
-
-
-
-// FUNCIÓN PARA ENVIAR EL CORREO DE CONFIRMACIÓN AL USUARIO
-function SDOPZ_EnvioCorreoPoliza_cliente($email_asegurado) {
-   // Definición de headers
-   $headers = array(
-      'Content-Type: text/html; charset=UTF-8',
-      'From: ' . sanitize_email(WPCONFIG_MAIL_EMPRESA),
-      'Reply-To: ' . sanitize_email(WPCONFIG_MAIL_EMPRESA),
-   );
-   // Asunto del correo
-   $asunto = "Póliza Seguro D&O - " . WPCONFIG_NAME_EMPRESA;
-
-   ob_start();
-
-   $template_path = SDOPZ_PLUGIN_PATH .'templates/plantilla-email.php';
-   if (file_exists($template_path)) {
-      require_once $template_path;
-   } else {
-      return false;
-   }
-
-   $mensaje = ob_get_clean();
-
-   // Enviar el correo
-   $wp_mail_result = wp_mail($email_asegurado, $asunto, $mensaje, $headers);
-   // Registro de errores si ocurre algún problema
-   if (!$wp_mail_result) {
-      $error_message = 'Error al enviar correos a: ' . json_encode(array(
-         'email_asegurado' => $email_asegurado,
-         'correo_correduria' => WPCONFIG_MAIL_EMPRESA
-      ));
-
-      insu_registrar_error_insuguru("SDOPZ_EnvioCorreoPoliza", $error_message, SDOPZ_INSU_PRODUCT_ID);
-
-      wp_send_json_error('Error al enviar el correo.');
-
-      return false;
-   }
-
-   wp_send_json_success('Correo enviado exitosamente.');
-
-   return true;
-}
-
-
-// Callback para enviar el correo vía AJAX
-function SDOPZ_enviar_correo_poliza_callback() {
-   // Verifica que los parámetros se hayan pasado correctamente
-   if (isset($_POST['email_asegurado'])) {
-
-      $email_asegurado = sanitize_email($_POST['email_asegurado']);
-      // Llama a la función para enviar el correo
-      $resultado = SDOPZ_EnvioCorreoPoliza_cliente($email_asegurado);
-      if ($resultado) {
-         wp_send_json_success('Correo enviado exitosamente.');
-      } else {
-         wp_send_json_error('Error al enviar el correo.');
-      }
-   } else {
-      wp_send_json_error('Datos faltantes.');
-   }
-
-   wp_die();
-}
-
-add_action('wp_ajax_SDOPZ_enviar_correo_poliza_cliente', 'SDOPZ_enviar_correo_poliza_callback');
-add_action('wp_ajax_nopriv_SDOPZ_enviar_correo_poliza_cliente', 'SDOPZ_enviar_correo_poliza_callback');
 
 
 
@@ -736,3 +746,10 @@ function SDOPZ_enviar_correo_poliza_companias_callback() {
 
 add_action('wp_ajax_SDOPZ_enviar_correo_poliza_compania', 'SDOPZ_enviar_correo_poliza_companias_callback');
 add_action('wp_ajax_nopriv_SDOPZ_enviar_correo_poliza_compania', 'SDOPZ_enviar_correo_poliza_companias_callback');
+
+// función para guardar transients
+function SDOPZ_save_transient() {
+   return SDOPZ_save_transient_service();
+}
+add_action('wp_ajax_SDOPZ_save_transient', 'SDOPZ_save_transient');
+add_action('wp_ajax_nopriv_SDOPZ_save_transient', 'SDOPZ_save_transient');

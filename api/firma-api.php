@@ -39,7 +39,7 @@ function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $fil
         'password' => $password,
         'signature' => array(
             'contract_id' => $NIF,
-            'config_id' => '40257',
+            'config_id' => API_TEMPLATE_ILEIDA_SDOPZ,
             'level' => array(
                 array(
                     'level_order' => '1',
@@ -50,7 +50,9 @@ function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $fil
                             'phone' => $telefono,
                             'name' => $nombre,
                             'surname' => $apellido,
-                            "external_id" => "1"
+                            "external_id" => "1",
+                            'url_redirect' => (home_url( '/' ) . API_URL_REDIRECT_SDOPZ)
+
                         ),
                     ),
                 ),
@@ -115,12 +117,15 @@ function SDOPZ_iniciar_proceso_firma($email, $telefono, $nombre, $apellido, $fil
                 $request_id = strval($decoded_response['request_id']);
                 $signature_id = strval($decoded_response['signature']['signature_id']); // Convertir a cadena
                 $signatory_id = strval($decoded_response['signature']['signatories'][0]['signatory_id']); // Convertir a cadena
-                
+                $url_redirect = strval($decoded_response['signature']['signatories'][0]['url']); // Convertir a cadena
+
                 return [
                     //Retornamos estas 3 variables al metodo llenar-pdf.php
                     'request_id' => $request_id,
                     'signature_id' => $signature_id,
                     'signatory_id'=> $signatory_id,
+                    'url_redirect'=> $url_redirect
+
                 ];
             } else {
                     insu_registrar_error_insuguru("SDOPZ_iniciar_proceso_firma", "La respuesta devuelta por LLeida Net no incluye un request id", SDOPZ_INSU_PRODUCT_ID);

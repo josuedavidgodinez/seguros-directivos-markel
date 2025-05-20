@@ -47,5 +47,6 @@
 
 
 	<!-- Descargar presupuesto -->
-	<button id="descargar-presupuesto-SDOPZ" class="btn btn-rosa mt-5 d-none">Descargar presupuesto</button>
+	<a  id="descargar-presupuesto-SDOPZ" class="btn btn-secondary mt-5 d-none">Descargar presupuesto</a>
+
 </div>
