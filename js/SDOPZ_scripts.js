@@ -21,6 +21,18 @@ function aplicarCorreccionARespuesta(respuesta) {
     }
 }
 
+
+//Función que muestra u oculata el botçon de descargar proyecto
+function MostrarresumenMobile(currentStepValue){
+    // Manejar el botón de descarga
+    if (currentStepValue >= 1) {
+        $('.price-mobile-bottom').removeClass('d-none').css('display', 'block');
+    } else {
+        $('.price-mobile-bottom').addClass('d-none').css('display', 'none');
+    }
+}
+
+
 function armarPeticionAjax(formData, resolve, reject) {
     $.ajax({
         url: miAjax.ajaxurl, // WordPress AJAX handler URL
@@ -493,7 +505,7 @@ function SDOPZ_valor_indemnizacion(valor) {
 function actualizaPrecioPolizaRC(valorIndem, facturacion_anual) {
     let precioPoliza = SDOPZ_obtenerPrecio(facturacion_anual, valorIndem)
 
-    $('#coste_seguro').html(precioPoliza)
+    $('#coste_seguro, .prc-seguro-spdmb').html(precioPoliza)
     $('#resp-incid-1').html(SDOPZ_valor_facturacion(facturacion_anual))
     $('.validngm').html(SDOPZ_valor_indemnizacion(valorIndem))
     $('#indemnizacion_value_rc').text(SDOPZ_valor_indemnizacion(valorIndem))
@@ -684,6 +696,7 @@ $(document).ready(function () {
 
     // Obtiene datos del formulario
     const dataForm = collectFormData();
+    console.log(dataForm)
     // Muestra el loader
     $loaderSimple.show();
     // Realiza la llamada AJAX al backend de WordPress para generar el proyecto
@@ -810,6 +823,7 @@ $(document).ready(function () {
 
 
         MostrarBotonDescargaProyecto(currentStepValue)
+        MostrarresumenMobile(currentStepValue)
     });
 
     // Manejar el botón de atrás
@@ -830,6 +844,7 @@ $(document).ready(function () {
                     var currentStepValue = parseInt(currentStepId.split('-').pop(), 10);
 
                     MostrarBotonDescargaProyecto(currentStepValue);
+                    MostrarresumenMobile(currentStepValue)
                 });
 
                 actualPasoLinea.removeClass('active');
@@ -857,6 +872,7 @@ $(document).ready(function () {
 
     //Fecha de inicio de cobertura con airdatepicker
     const today = new Date();
+    const todaFormated = `${('0' + today.getDate()).slice(-2)}-${('0' + (today.getMonth() + 1)).slice(-2)}-${today.getFullYear()}`;
 
     const localeEs = {
         days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -920,6 +936,9 @@ $(document).ready(function () {
         }
     });
 
+    // Setear el valor del input a la fecha de mañana
+    $('#fecha_efecto_solicitada').val(todaFormated);
+
 
     // Captura el evento change en todos los radios con valor "si"
    $('input[type=radio][value="si"]').on('change', function() {
@@ -949,7 +968,7 @@ $(document).ready(function () {
         // Muestra el loader
         $('#loader-simple').show();
         await insu_registrar_lead();
-        let precioSeguro = $('#coste_seguro').html()
+        let precioSeguro = $('#coste_seguro, .prc-seguro-spdmb').html()
         await insu_registrar_rate(precioSeguro)
         $('#loader-simple').attr('style', 'display: none !important;');
 

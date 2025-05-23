@@ -36,5 +36,5 @@ sudo apt install -y pdftk
 Antes de activar:
 
 1. Definir en el archivo principal del plugin las constantes entre el comentario /***VARIABLES A REVISAR ANTES DE ACTIVAR EL PLUGIN***/ que sean necesarias.
-2. También es necesario cambiar los correos electrónicos a los que se les enviará una copia de la solicitud de contratación. Está en la línea 637 del archivo principal del plugin.
+2. También es necesario cambiar los correos electrónicos a los que se les enviará una copia de la solicitud de contratación. Está en la línea 655 del archivo principal del plugin.
 3. Activar el plugin.

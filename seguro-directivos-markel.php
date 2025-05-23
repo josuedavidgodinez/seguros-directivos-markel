@@ -36,7 +36,6 @@ define('SDOPZ_PRODUCTO_NOMBRE', "Seguro Directivos y Administradores");
 
 //CONSTANTES A DEFINIR ANTES DE LA ACTIVACIÓN
 define('SDOPZ_SLUG_LANDING_PRODUCTO', 'seguros-directivos-administradores');
-define('SDOPZ_PRODUCT_ID_WORDPRESS', 2251);  //ID del post  en wordpress que corresponde con el desarrollo.
 define('SDOPZ_IMAGEN_PLUGIN', SDOPZ_PLUGIN_URL."/img/img-seguro-do.svg");  //No es necesario. Puede utilizarse el que viene por defecto
 define('SDOPZ_CODIGO_MEDIADOR', 4648);
 
@@ -432,8 +431,6 @@ function SDOPZ_generar_proyecto() {
    $email_repre               = sanitize_email( $_POST['email_repre'] ?? '' );
    $telefono_repre            = sanitize_text_field( $_POST['telefono_repre'] ?? '' );
 
-   $nombre_provincia_asegurado = SDOPZ_obtenerNombreProvincia( $provincia );
-
    // --- Genera proyecto PDF ---
    $url_proyecto_producto = SDOPZ_Generar_proyecto_PDF(
       $facturacion_anual,
@@ -462,7 +459,13 @@ function SDOPZ_generar_proyecto() {
       $actividad_descript,
       $fecha_constitucion,
       $poblacion,
-      $fecha_efecto_solicitada
+      $fecha_efecto_solicitada,
+      $cargo_repre,
+      $nombre_repre,
+      $apellido_repre,
+      $identificador_repre,
+      $email_repre,
+      $telefono_repre 
    );
 
    // Comprueba éxito de firma
@@ -540,9 +543,6 @@ function SDOPZ_procesar_poliza() {
    $identificador_repre       = sanitize_text_field( $_POST['identificador_repre'] ?? '' );
    $email_repre               = sanitize_email( $_POST['email_repre'] ?? '' );
    $telefono_repre            = sanitize_text_field( $_POST['telefono_repre'] ?? '' );
-
-   $nombre_provincia_asegurado = SDOPZ_obtenerNombreProvincia( $provincia );
-
 
    // --- Genera PDF final y firma electrónica ---
    $firmaResponse = SDOPZ_Cumplimentacion_firma_poliza_PDF(

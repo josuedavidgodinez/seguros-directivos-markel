@@ -1,18 +1,16 @@
 @media (min-width:772px){
-	#top-do-box{
-		padding: 70px 0 90px !important;
-	}
+	
 }
 #top-do-box{
-	padding: 70px 0 30px !important;
+	padding: 30px 0 30px !important;
 }
 span.desde-val {
     font-size: 14px;
 }
 div#img-producto {
     width: 100%;
-    margin-left: 0;
-    margin-top: 5%;
+    max-width: 180px;
+    margin-top: 30px !important;
 }
 @media (min-width:772px){
     div#img-producto {
@@ -23,7 +21,16 @@ div#img-producto {
     .pad-left-block{
         padding-left: 5%;
     }
+    #top-do-box{
+        padding: 70px 0 90px !important;
+    }
 }
 b,strong{
     color: var(--color-a);
+}
+
+@media (max-width:576px){
+    .cond-gen-box {
+        margin: -20px auto 20px !important;
+    }
 }

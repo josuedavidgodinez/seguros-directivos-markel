@@ -41,12 +41,12 @@
 	</style>
 		<div class="row border-bottom border-primary border-width-custom-1 pb-0">
 			<div class="col-6 bg-degraded">
-				<img src="<?= SDOPZ_PLUGIN_URL . 'templates/proyectos_pdf/img/ilustracion-accidentes.svg'; ?>" style="width: 200px;" class="ml-4">
+				<img src="<?= SDOPZ_PLUGIN_URL . 'templates/proyectos_pdf/img/Business Insurance 1.svg'; ?>" style="width: 200px;" class="ml-4">
 			</div>
 			<div class="col-6 text-right mt-1 d-flex">
 				<div class="align-self-center ml-auto">
 					<p class="text-primary text-uppercase mb-0">Proyecto</p>
-					<p class="font-weight-bold text-uppercase h5">Seguro Accidentes</p>
+					<p class="font-weight-bold text-uppercase h5">Seguro D&O</p>
 					<img src="<?= WPCONFIG_LOGO_ORIGINAL_EMPRESA; ?>"  style="width: 180px;" class="mt-2">
 				</div>
 			</div>

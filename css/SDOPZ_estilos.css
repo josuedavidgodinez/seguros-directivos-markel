@@ -230,12 +230,11 @@ label.conditions{
     font-size: 28px;
     margin: 20px 0 3px;
 }
-h2.txt-reduced {
-    font-size: 22px;
-    margin: 35px 0 3px;
-    font-weight: normal;
-}
 
+h2.txt-reduced {
+    font-size: 18px;
+    line-height: 1.5;
+}
 #img-producto {
     max-width: 425px;
 }
@@ -308,13 +307,16 @@ header{
         color: var(--color-c);
         left: 10px;
     }
+    h2.txt-reduced {
+        font-size: 22px;
+    }
 }
 div#content {
     padding-top: 80px;
 }
 .img-sgviajes {
     margin-top: 0;
-    max-width: 45px;
+    max-width: 75px;
 }
 a.link-salir-viajes.color-a {
     position: absolute;

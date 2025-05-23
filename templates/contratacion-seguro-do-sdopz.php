@@ -693,6 +693,13 @@
 						</div>
 						<!-- FIN PANTALLA 17 -->
 
+						<?php 
+							if (wp_is_mobile()) {
+								require( SDOPZ_PLUGIN_PATH . 'parts/mobile-bottom-resume.php' ) ;	
+							}
+
+						?>
+
 					</form>
 					<!-- FIN FORM -->
 

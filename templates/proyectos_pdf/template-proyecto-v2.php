@@ -27,7 +27,13 @@ function SDOPZ_template_generacion_proyecto(
     $actividad_descript,
     $fecha_constitucion,
     $poblacion,
-    $fecha_efecto_solicitada
+    $fecha_efecto_solicitada,
+    $cargo_repre,
+    $nombre_repre,
+    $apellido_repre,
+    $identificador_repre,
+    $email_repre,
+    $telefono_repre 
 ) {
 
 
@@ -44,6 +50,23 @@ function SDOPZ_template_generacion_proyecto(
     $fecha_al_anio->modify('+15 days');
     // Formatear la fecha en el formato d/m/Y
     $fecha_al_anio_format = $fecha_al_anio->format('d/m/Y');
+
+
+    // 1. Crear DateTime desde la cadena con formato día-mes-año
+    $fecha_efecto = DateTime::createFromFormat('d-m-Y', $fecha_efecto_solicitada);
+    if (!$fecha_efecto) {
+        // Manejo de error si el formato es inválido
+        throw new Exception('Formato de fecha inválido, espera dd-mm-YYYY');
+    }
+
+    // 2. Clonar la fecha para no modificar el original (opcional)
+    $fecha_final_cobertura = clone $fecha_efecto;
+
+    // 3. Sumar un año
+    $fecha_final_cobertura->modify('+1 year');
+
+    // 4. Formatear en d/m/Y
+    $fecha_final_cobertura_mod = $fecha_final_cobertura->format('d/m/Y');
 
 
     $top_page = 8;

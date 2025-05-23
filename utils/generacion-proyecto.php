@@ -30,7 +30,13 @@ function SDOPZ_Generar_proyecto_PDF(
    $actividad_descript,
    $fecha_constitucion,
    $poblacion,
-   $fecha_efecto_solicitada
+   $fecha_efecto_solicitada,
+   $cargo_repre,
+   $nombre_repre,
+   $apellido_repre,
+   $identificador_repre,
+   $email_repre,
+   $telefono_repre 
 ){
    $timestamp = time();
    $nombrepdf = sanitize_file_name($razon_social . '_' . $timestamp . '.pdf');
@@ -63,7 +69,13 @@ function SDOPZ_Generar_proyecto_PDF(
       $actividad_descript,
       $fecha_constitucion,
       $poblacion,
-      $fecha_efecto_solicitada
+      $fecha_efecto_solicitada,
+      $cargo_repre,
+      $nombre_repre,
+      $apellido_repre,
+      $identificador_repre,
+      $email_repre,
+      $telefono_repre 
    );
 
    // Inicializar Snappy

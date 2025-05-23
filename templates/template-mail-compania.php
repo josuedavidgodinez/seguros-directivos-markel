@@ -496,12 +496,10 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
                                                                                         style="color: #004481; font-family: Space Grotesk, Arial; font-size: 16px; line-height: 1.5; padding: 15px 0; text-align: center;">
                                                                                         <div>
                                                                                             <h1 class="default-heading1"
-                                                                                                style="margin: 0; color: #004481; font-family: Arial, Helvetica, sans-serif; font-size: 26px;">
-                                                                                                <span
-                                                                                                    style="font-family: \'Space Grotesk\', Arial; font-size: 26px; line-height: 1;">Nueva
-                                                                                                    solicitud de
-                                                                                                    contratación seguro
-                                                                                                    D&O</span>
+                                                                                                style="margin: 0; color: #004481; font-family: Arial, Helvetica, sans-serif; font-size: 25px; line-height: 1.25;">Nueva
+                                                                                                solicitud de
+                                                                                                contratación seguro
+                                                                                                de D&O con Markel
                                                                                             </h1>
                                                                                         </div>
                                                                                     </td>
@@ -546,37 +544,27 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
                                                                     </tr>
 
                                                                     <tr>
-                                                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin: 35px auto;">
-                                                                            <tr>
-                                                                                <td align="center" bgcolor="#ff2f76" style="border-radius: 13px;">
-                                                                                    <a href="'.$link_poliza.'" target="_blank" style="font-style: normal; font-weight: bold; line-height: 1.15; text-decoration: none; background-color: #ff2f76; color: #ffffff; font-family: Space Grotesk, Arial; font-size: 16px; padding: 16px 15px; display: inline-block; border-radius: 13px;">
-                                                                                        Descargar solicitud firmada
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td class="r9-c" align="left">
-                                                                            <table cellspacing="0" cellpadding="0"
-                                                                                border="0" role="presentation"
-                                                                                width="100%" class="r10-o"
-                                                                                style="table-layout: fixed; width: 100%;">
+                                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0; padding: 0;">
+                                                                          <tr>
+                                                                            <td align="center" style="padding: 20px 0;">
+                                                                              <!-- Tabla interna para el botón -->
+                                                                              <table border="0" cellspacing="0" cellpadding="0" style="background-color: #ff2f76; border-radius: 13px;">
                                                                                 <tr>
-                                                                                    <td align="center" valign="top"
-                                                                                        class="r12-i nl2go-default-textstyle"
-                                                                                        style="color: #004481; font-family: Space Grotesk, Arial; font-size: 16px; line-height: 1.5; padding-top: 15px; text-align: center;">
-                                                                                        <div>
-                                                                                            <p style="margin: 25px 0 0 0; text-align: left;"><span
-                                                                                                    style="color: #333333;">Un saludo.</span>
-                                                                                            </p>
-                                                                                            
-                                                                                        </div>
-                                                                                    </td>
+                                                                                  <td style="padding: 16px 30px;">
+                                                                                    <a href="'.$link_poliza.'"
+                                                                                       style="font-family: Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; font-weight: bold;">
+                                                                                       Descargar solicitud firmada
+                                                                                    </a>
+                                                                                  </td>
                                                                                 </tr>
-                                                                            </table>
-                                                                        </td>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                          <!-- Espacio extra si se quiere separar aún más del footer -->
+                                                                          <tr>
+                                                                            <td height="40"><!-- este es el espacio --></td>
+                                                                          </tr>
+                                                                        </table>
                                                                     </tr>
 
                                                                 </table>
@@ -630,7 +618,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
                                                                             <div style="text-align: center;">
                                                                                 <p style="margin: 0; color: #333; font-size: 15px;">'.WPCONFIG_DIRECCION_EMPRESA.'</p>
                                                                                 <p style="margin: 0;">
-                                                                                    <a href="mailto:'.WPCONFIG_MAIL_EMPRESA_PARA_PUBLICO.'" style="color: #644bf1; text-decoration: underline; font-size: 15px;">'.WPCONFIG_MAIL_EMPRESA_PARA_PUBLICO.'</a>
+                                                                                    <a href="mailto:'.WPCONFIG_MAIL_EMPRESA.'" style="color: #644bf1; text-decoration: underline; font-size: 15px;">'.WPCONFIG_MAIL_EMPRESA.'</a>
                                                                                 </p>
                                                                                 <p style="margin: 0; color: #333; font-size: 15px;">'.WPCONFIG_TELEFONO_EMPRESA.'</p>
                                                                             </div>

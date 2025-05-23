@@ -43,7 +43,7 @@ if ($fondo_faqs == "verde") {
 
 	                        <div class="d-flex">
 	                        	<div>
-	                        		<a href="/contratacion-seguro-do-sdopz/" class="btn btn-rosa me-3">Contratar online</a>
+	                        		<a href="#form_datos_select_productos" class="btn btn-rosa me-3">Calcular precio</a>
 	                        	</div>
 	                        	<div>
 	                        		<a href="#"  data-bs-toggle="modal" data-bs-target="#ModalLlamarLateral" class="btn btn-secondary">¿Te llamamos?</a>
@@ -80,7 +80,7 @@ if ($fondo_faqs == "verde") {
 					</div>
 				</div>
 
-				<small class="color-azul mt-4 d-block text-center">*Las coberturas, extensiones de cobertura, exclusiones y resto de condiciones contenidas en esta oferta son meramente un extracto del condicionado de aplicación ofrecido por Zurich. En caso de cualquier duda de interpretación, prevalecerá siempre lo contenido en la Póliza emitida.</small>
+				<small class="color-azul mt-4 d-block text-center ps-1 pe-1">*Las coberturas, extensiones de cobertura, exclusiones y resto de condiciones contenidas en esta oferta son meramente un extracto del condicionado de aplicación ofrecido por Markel. En caso de cualquier duda de interpretación, prevalecerá siempre lo contenido en la póliza emitida.</small>
 			</div>
 
 			</div>
